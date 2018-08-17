@@ -3,6 +3,6 @@
 
   tasks:
     - name: "Ceva"
-      shell: echo "{{ item }}"
+      shell: echo "{{ ansible_play_batch }}"
       loop: "{{ ansible_play_batch }}"
 
