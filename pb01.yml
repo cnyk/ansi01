@@ -1,5 +1,8 @@
 - hosts:
-  all
+  - all
 
-  - tasks:
+  tasks:
+    - name: "Ceva"
+      shell: echo "{{ item }}"
+      loop: "{{ ansible_play_batch }}"
 
