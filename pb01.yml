@@ -3,6 +3,17 @@
 
   tasks:
     - name: "Ceva"
-      shell: echo "{{ ansible_play_batch | join(' ') }}"
-      # loop: "{{ ansible_play_batch }}"
+      vars:
+        i: 0
+#      - blockinfile:
+#        dest: /etc/pgpool2/pgpool.conf
+#        block: |
+#          backend_hostname0 = '{{ item }}'
+#          backend_port0 = 5432
+#          backend_weight0 = 1
+#          backend_data_directory0 = 
+#                  regexp='^# - Authentication -'
+#                  line='# - Authentication -'
+      - loop: "{{ ansible_play_batch }}"
+        shell: echo {{ i }}
 
