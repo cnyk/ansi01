@@ -6,7 +6,7 @@
       shell: echo {{ item.0 }} {{ item.1 }}
       with_together:
         - '{{ ansible_play_batch }}'
-        - '{{ query("sequence", "start=0 end=1") }}"
+        - '{{ query("sequence", "start=0 end=1") }}'
 #      - blockinfile:
 #        dest: /etc/pgpool2/pgpool.conf
 #        block: |
