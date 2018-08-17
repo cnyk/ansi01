@@ -4,5 +4,5 @@
   tasks:
     - name: "Ceva"
       shell: echo "{{ ansible_play_batch | join(' ') }}"
-      loop: "{{ ansible_play_batch }}"
+      # loop: "{{ ansible_play_batch }}"
 
