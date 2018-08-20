@@ -3,10 +3,10 @@
 
   tasks:
     - name: "Ceva"
-      shell: echo {{ item.0 }} {{ item.1 }}
+      shell: echo "backend_hostname{{ item.0 }} = '{{ item.1 }}'"
       with_together:
         - '{{ ansible_play_batch }}'
-        - '{{ query("sequence", "start=0 end=2") }}'
+        - '{{ query("sequence", "start=0 end=1") }}'
 #      - blockinfile:
 #        dest: /etc/pgpool2/pgpool.conf
 #        block: |
