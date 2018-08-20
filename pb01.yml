@@ -26,11 +26,17 @@
                   insertbefore='^#load_balance_mode = off'
                   line='load_balance_mode = on'
 
-    - name: "Disable default backend"
+#    - name: "Disable default backend"
+#      replace:
+#        path: /root/pgpool.conf
+#        regexp: '^#\s+-\s+Backend\s+Connection\s+Settings\s+-(.*\n)*#backend_flag1\s+=\s+.*'
+#        replace: '# - Backend Connection Settings -'
+
+    - name: "Disable default backend #1"
       replace:
         path: /root/pgpool.conf
-        regexp: '^#\s+-\s+Backend\s+Connection\s+Settings\s+-(.*\n)*#backend_flag1\s+=\s+.*'
-        replace: '# - Backend Connection Settings -\n'
+        regexp: '(^backend_hostname0\s*=\s*.*\n\s+#\s+Host\s+name.*)'
+        replace: '# \1'
 
     - name: "Add PostreSQL Backends"
       blockinfile:
