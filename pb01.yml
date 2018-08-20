@@ -88,10 +88,16 @@
                   insertbefore='^#delegate_IP = \'\''
                   line='delegate_IP = \'{{ fip }}\''
 
-    - name: "init loop"
-      set_fact: lposwd=0
+    - name: "Disable default hearbeat peer"
+      replace:
+        path: /root/pgpool.conf
+        regexp: '(^heartbeat_destination0\s+=\s+.+\n(\s+#\s+.*\n)+)(^heartbeat_destination_port0\s+=\s+.+\n(\s+#\s+.*\n)+)(^heartbeat_device0\s+=\s+.+\n(\s+#\s+.*\n)+)'
+        replace: '# \1# \3# \5'
 
-    - name: "check it out"
+    - name: "Initialize heartbeat peers configuration loop"
+      set_fact: lposhb=0
+
+    - name: "Setup heartbeat peers"
       include: pb02.yml
       when: item != inventory_hostname
       loop: '{{ ansible_play_batch }}'

@@ -1,8 +1,14 @@
 ---
-- name: "check me out"
-  debug:
-    msg: "I'm {{ inventory_hostname }} running for {{ item }} with index {{ lposwd }}"
+- name: "Add heartbeat peer setup"
+  blockinfile:
+    path: /root/pgpool.conf
+    insertbefore: "# -- query mode --"
+    marker: "# {mark} Add peer{{ lposhb }} -- {{ item }}"
+    content: |
+      heartbeat_destination{{ lposhb }} = '{{ item }}'
+      heartbeat_destination_port{{ lposhb }} = 9694
+      heartbeat_device{{ lposhb }} = ''
 
-- name: "increment"
-  set_fact: lposwd={{ lposwd | int + 1 }}
+- name: "Increment hearbeat peer loop var"
+  set_fact: lposhb={{ lposhb | int + 1 }}
 
