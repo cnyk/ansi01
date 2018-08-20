@@ -35,8 +35,8 @@
     - name: "Disable default backend #1"
       replace:
         path: /root/pgpool.conf
-        regexp: '(^backend_hostname0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_port0\s+=\s+.+\n(\s+#\s+.*\n)+)'
-        replace: '# \1#\3'
+        regexp: '(^backend_hostname0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_port0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_weight0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_data_directory0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_flag0\s+=\s+.+\n(\s+#\s+.*\n)+)'
+        replace: '# \1# \3# \5# \7# \9#\10'
 
     - name: "Add PostreSQL Backends"
       blockinfile:
