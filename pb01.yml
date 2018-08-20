@@ -26,8 +26,13 @@
                   insertbefore='^#load_balance_mode = off'
                   line='load_balance_mode = on'
 
+    - name: "Disable default backend #1"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^backend_hostname0\\s*=\\s*\'localhost\''
+                  line='#backend_hostname0 = \'localhost\''
 
-    - name: "Ceva"
+
+    - name: "Add PostreSQL Backends"
       blockinfile:
         path: /root/pgpool.conf
         insertbefore: "# - Authentication -"
