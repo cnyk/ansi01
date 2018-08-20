@@ -28,8 +28,8 @@
 
 
     - name: "Ceva"
-      - blockinfile:
-        dest: /root/pgpool.conf
+      blockinfile:
+        path: /root/pgpool.conf
         insertbefore: "# - Authentication -"
         content: |
           backend_hostname{{ lpos }} = '{{ item }}'
