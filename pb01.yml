@@ -2,9 +2,14 @@
   - all
 
   tasks:
+    - name: "Upgrade system"
+      apt:
+        upgrade: dist
+        update_cache: yes
+
     - name: "Install packages"
       apt:
-        pgk: "{{ item }}"
+        name: "{{ item }}"
         state: present
       with_items:
         - vim-nox
