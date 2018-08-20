@@ -26,13 +26,45 @@
                   insertbefore='^#load_balance_mode = off'
                   line='load_balance_mode = on'
 
-#    - name: "Disable default backend"
-#      replace:
-#        path: /root/pgpool.conf
-#        regexp: '^#\s+-\s+Backend\s+Connection\s+Settings\s+-(.*\n)*#backend_flag1\s+=\s+.*'
-#        replace: '# - Backend Connection Settings -'
 
-    - name: "Disable default backend #1"
+    - name: "Enable health check for enabling automatic failover"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^health_check_period\\s*=.*'
+                  insertbefore='^#health_check_period = 0'
+                  line='health_check_period = 5'
+
+    - name: "Set health check user"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^health_check_user\\s*=.*'
+                  insertbefore='^#health_check_user = \'nobody\''
+                  line='health_check_user = \'{{ hcuser }}\''
+
+    - name: "Set health check password"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^health_check_password\\s*=.*'
+                  insertbefore='^#health_check_password = \'\''
+                  line='health_check_password = \'{{ hcpass }}\''
+
+    - name: "Set health check retries"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^health_check_max_retries\\s*=.*'
+                  insertbefore='^#health_check_max_retries = 0'
+                  line='health_check_max_retries = 6'
+
+    - name: "Enable watchdog functionality"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^use_watchdog\\s*=.*'
+                  insertbefore='^#use_watchdog = off'
+                  line='use_watchdog = on'
+
+    - name: "Set virtual IP address"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^delegate_IP\\s*=.*'
+                  insertbefore='^#delegate_IP = \'\''
+                  line='delegate_IP = \'{{ fip }}\''
+
+
+    - name: "Disable default backend"
       replace:
         path: /root/pgpool.conf
         regexp: '(^backend_hostname0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_port0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_weight0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_data_directory0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_flag0\s+=\s+.+\n(\s+#\s+.*\n)+)'
