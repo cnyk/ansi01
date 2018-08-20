@@ -3,10 +3,14 @@
 
   tasks:
     - name: "Ceva"
-      shell: echo "backend_hostname{{ item.1 }} = '{{ item.0 }}'\nbackend_port{{ item.1 }} = 5432\nbackend_weight{{ item.1 }} = 1\n"
-      with_together:
-        - '{{ ansible_play_batch }}'
-        - '{{ query("sequence", "start=0 end=1") }}'
+      shell: echo "backend_hostname{{ lpos }} = '{{ item }}'\nbackend_port{{ lpos }} = 5432\nbackend_weight{{ lpos }} = 1\n"
+      loop: '{{ ansible_play_batch }}'
+      loop_control:
+        index_var: lpos
+#      shell: echo "backend_hostname{{ item.1 }} = '{{ item.0 }}'\nbackend_port{{ item.1 }} = 5432\nbackend_weight{{ item.1 }} = 1\n"
+#      with_together:
+#        - '{{ ansible_play_batch }}'
+#        - '{{ query("sequence", "start=0 end=1") }}'
 #      - blockinfile:
 #        dest: /etc/pgpool2/pgpool.conf
 #        block: |
