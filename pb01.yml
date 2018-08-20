@@ -30,6 +30,7 @@
     - name: "Ceva"
       blockinfile:
         path: /root/pgpool.conf
+        marker: "# {mark} Add backend{{ lpos }} -- {{ item }}"
         content: |
           backend_hostname{{ lpos }} = '{{ item }}'
           backend_port{{ lpos }} = 5432
