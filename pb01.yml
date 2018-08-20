@@ -26,9 +26,19 @@
                   insertbefore='^#load_balance_mode = off'
                   line='load_balance_mode = on'
 
-    - name: "Disable default backend #1"
+    - name: "Disable default backend"
+      replace:
+        path: /root/pgpool.conf
+        regexp: '^#\s*-\s*Backend\s*Connection\s*Settings\s*-[.*\n]*\n#backend_flag1\s*=\s*.*'
+        replace: '# - Backend Connection Settings -'
+
       lineinfile: dest=/root/pgpool.conf
                   regexp='^backend_hostname0\\s*=\\s*\'localhost\''
+                  line='#backend_hostname0 = \'localhost\''
+
+    - name: "Disable default backend #2"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^backend_port0\\s*=\\s*5432'
                   line='#backend_hostname0 = \'localhost\''
 
 
