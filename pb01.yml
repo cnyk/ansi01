@@ -2,6 +2,20 @@
   - all
 
   tasks:
+    - name: "Install packages"
+      apt:
+        name: {{ item }}
+        state: present
+      with_items:
+        - vim-nox
+        - mc
+        - iotop
+        - netcat
+        - postgresql-9.6
+        - pgpool2
+        - arping
+        - net-tools
+
     - name: "Activate master/slave replication"
       lineinfile: dest=/root/pgpool.conf
                   regexp='^master_slave_mode\\s*=.*'
