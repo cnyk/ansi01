@@ -29,8 +29,8 @@
     - name: "Disable default backend"
       replace:
         path: /root/pgpool.conf
-        regexp: '^#\s+-\s+Backend\s+Connection\s+Settings\s+-.*\n[^.*\n]*#backend_flag1\s+=\s+.*\n'
-        replace: '# - Backend Connection Settings -\n\n'
+        regexp: '^#\s+-\s+Backend\s+Connection\s+Settings\s+-(.*\n)*#backend_flag1\s+=\s+.*'
+        replace: '# - Backend Connection Settings -\n'
 
     - name: "Add PostreSQL Backends"
       blockinfile:
