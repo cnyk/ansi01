@@ -57,6 +57,12 @@
                   insertbefore='^#use_watchdog = off'
                   line='use_watchdog = on'
 
+    - name: "Set watchdog source IP"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^wd_hostname\\s*=.*'
+                  insertbefore='^#wd_hostname = \'\''
+                  line='wd_hostname = \'{{ inventory_hostname }}\''
+
     - name: "Set virtual IP address"
       lineinfile: dest=/root/pgpool.conf
                   regexp='^delegate_IP\\s*=.*'
