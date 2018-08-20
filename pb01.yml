@@ -36,7 +36,7 @@
       replace:
         path: /root/pgpool.conf
         regexp: '(^backend_hostname0\s+=\s+.+\n(\s+#\s+.*\n)+)(^backend_port0\s+=\s+.+\n(\s+#\s+.*\n)+)'
-        replace: '# \1#\2'
+        replace: '# \1#\3'
 
     - name: "Add PostreSQL Backends"
       blockinfile:
