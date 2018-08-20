@@ -2,22 +2,42 @@
   - all
 
   tasks:
+    - name: "Activate master/slave replication"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^master_slave_mode\\s*=.*'
+                  insertbefore='^#master_slave_mode = off'
+                  line='master_slave_mode = on'
+
+    - name: "Set replication mode to streaming"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^master_slave_sub_mode\\s*=.*'
+                  insertbefore='^#master_slave_sub_mode = \'slony\''
+                  line='master_slave_sub_mode = \'stream\''
+
+    - name: "Set pgpool2 port"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^port\\s*=\\s*\\d+.*'
+                  insertbefore='^#port = 5433'
+                  line='port = 5431'
+
+    - name: "Activate load balancing"
+      lineinfile: dest=/root/pgpool.conf
+                  regexp='^load_balance_mode\\s*=.*'
+                  insertbefore='^#load_balance_mode = off'
+                  line='load_balance_mode = on'
+
+
     - name: "Ceva"
-      shell: echo "backend_hostname{{ lpos }} = '{{ item }}'\nbackend_port{{ lpos }} = 5432\nbackend_weight{{ lpos }} = 1\n"
+      - blockinfile:
+        dest: /root/pgpool.conf
+        insertbefore: "# - Authentication -"
+        content: |
+          backend_hostname{{ lpos }} = '{{ item }}'
+          backend_port{{ lpos }} = 5432
+          backend_weight{{ lpos }} = 1
+          backend_data_directory{{ lpos }} = /var/lib/postgresql/9.6/main
+          backend_flag{{ lpos }} = 'ALLOW_TO_FAILOVER'
       loop: '{{ ansible_play_batch }}'
       loop_control:
         index_var: lpos
-#      shell: echo "backend_hostname{{ item.1 }} = '{{ item.0 }}'\nbackend_port{{ item.1 }} = 5432\nbackend_weight{{ item.1 }} = 1\n"
-#      with_together:
-#        - '{{ ansible_play_batch }}'
-#        - '{{ query("sequence", "start=0 end=1") }}'
-#      - blockinfile:
-#        dest: /etc/pgpool2/pgpool.conf
-#        block: |
-#          backend_hostname0 = '{{ item }}'
-#          backend_port0 = 5432
-#          backend_weight0 = 1
-#          backend_data_directory0 = 
-#                  regexp='^# - Authentication -'
-#                  line='# - Authentication -'
 
