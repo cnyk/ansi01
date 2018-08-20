@@ -92,7 +92,7 @@
       set_fact: lposwd=0
 
     - name: "check it out"
-      inclulde: pb02.yml
+      include: pb02.yml
       when: item != inventory_hostname
       loop: '{{ ansible_play_batch }}'
 
