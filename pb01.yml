@@ -32,16 +32,6 @@
         regexp: '^#\s*-\s*Backend\s*Connection\s*Settings\s*-[.*\n]*\n#backend_flag1\s*=\s*.*'
         replace: '# - Backend Connection Settings -'
 
-      lineinfile: dest=/root/pgpool.conf
-                  regexp='^backend_hostname0\\s*=\\s*\'localhost\''
-                  line='#backend_hostname0 = \'localhost\''
-
-    - name: "Disable default backend #2"
-      lineinfile: dest=/root/pgpool.conf
-                  regexp='^backend_port0\\s*=\\s*5432'
-                  line='#backend_hostname0 = \'localhost\''
-
-
     - name: "Add PostreSQL Backends"
       blockinfile:
         path: /root/pgpool.conf
@@ -53,7 +43,6 @@
           backend_weight{{ lpos }} = 1
           backend_data_directory{{ lpos }} = /var/lib/postgresql/9.6/main
           backend_flag{{ lpos }} = 'ALLOW_TO_FAILOVER'
-
       loop: '{{ ansible_play_batch }}'
       loop_control:
         index_var: lpos
