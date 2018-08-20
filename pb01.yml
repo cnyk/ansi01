@@ -4,7 +4,7 @@
   tasks:
     - name: "Install packages"
       apt:
-        name: {{ item }}
+        pgk: {{ item }}
         state: present
       with_items:
         - vim-nox
