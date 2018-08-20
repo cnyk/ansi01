@@ -30,7 +30,6 @@
     - name: "Ceva"
       blockinfile:
         path: /root/pgpool.conf
-        insertbefore: "# - Authentication -"
         content: |
           backend_hostname{{ lpos }} = '{{ item }}'
           backend_port{{ lpos }} = 5432
